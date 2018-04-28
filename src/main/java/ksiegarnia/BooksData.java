@@ -16,10 +16,11 @@ public class BooksData {
 
     private static BooksData booksData = null;
 
-    private BooksData(){}
+    private BooksData() {
+    }
 
-    public static BooksData getInstance(){
-        if(booksData == null){
+    public static BooksData getInstance() {
+        if (booksData == null) {
             booksData = new BooksData();
         }
         return booksData;
@@ -31,12 +32,19 @@ public class BooksData {
         }
     }
 
-    public void showBooksBeforeCertainYear(int year){
-        for (Book book:booksList) {
-            if(book.getPublicationYear()<year){
+    public void showBooksBeforeCertainYear(int year) {
+        int i = 0;
+        for (Book book : booksList) {
+            if (book.getPublicationYear() < year) {
+                i += 1;
                 System.out.println(book);
             }
         }
-//        booksList.stream().filter(x->x.getPublicationYear()<year).forEach(x-> System.out.println(x));
+        if(i == 0){
+            System.out.println("Nie posiadamy książek z podanego zakresu.");
+        }
+//        booksList.stream()
+//                .filter(x->x.getPublicationYear()<year)
+//                .forEach(x-> System.out.println(x));
     }
 }

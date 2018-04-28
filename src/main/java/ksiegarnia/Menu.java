@@ -8,9 +8,11 @@ public class Menu {
 
         Menu menu = new Menu();
         BooksData booksData = BooksData.getInstance();
+        AuthorData authorData = new AuthorData();
+        CategoriesData categoriesData = CategoriesData.getInstance();
 
         menu.printMenu();
-        menu.menuChoice(booksData);
+        menu.menuChoice(booksData, authorData, categoriesData);
 
     }
 
@@ -20,14 +22,18 @@ public class Menu {
         System.out.println("2. Kontakt");
         System.out.println("3. Wyświetl listę książek");
         System.out.println("4. Wyświetl ksiązki przed wybranym rokiem");
+        System.out.println("5. Wyświetl autorów");
+        System.out.println("6. Wyświetl książki wg kategorii");
     }
 
-    private void menuChoice(BooksData booksData) {
+    private void menuChoice(BooksData booksData, AuthorData authorData, CategoriesData categoriesData) {
         Scanner scanner = new Scanner(System.in);
-        ImportFiles importBooks = new ImportFiles();
+        ImportFiles importFiles = new ImportFiles();
         int choice = scanner.nextInt();
         while (choice != 1) {
-            booksData.setBooksList(importBooks.importBooks());
+            authorData.setAuthorList(importFiles.importAuthors());
+            booksData.setBooksList(importFiles.importBooks());
+            categoriesData.setCategoriesList(importFiles.importCategories());
             switch (choice) {
                 case 2:
                     String emailKsiegarni = "ksiegarnia@o2.pl";
@@ -43,6 +49,14 @@ public class Menu {
                     System.out.println("Książki dostępne w księgarni przed " + year + " rokiem:");
                     booksData.showBooksBeforeCertainYear(year);
                     break;
+                case 5:
+                    System.out.println("Ilość książek dostępnych od danego autora:");
+                    authorData.showAuthors();
+                    break;
+                case 6:
+                    System.out.println("Ksiązki wg kategorii:");
+                    categoriesData.showCategories();
+
             }
             System.out.println();
             printMenu();
