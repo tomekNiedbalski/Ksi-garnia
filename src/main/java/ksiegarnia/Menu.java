@@ -10,19 +10,17 @@ public class Menu {
     public static void main(String[] args) {
 
         Menu menu = new Menu();
-        List<Book> bookList;
+        BooksData booksData = BooksData.getInstance();
+        booksData.booksList = menu.booksReader();
 
         menu.printMenu();
-        menu.menuChoice();
+        menu.menuChoice(booksData.booksList);
 
-        bookList = menu.booksReader();
-
-        showBooks(bookList);
     }
 
-    private static void showBooks(List<Book> bookList) {
-        for (Book book : bookList) {
-            System.out.println(book);
+    private static void showAuthors(List<Author> authorList) {
+        for (Author author:authorList) {
+            System.out.println(author);
         }
     }
 
@@ -51,13 +49,39 @@ public class Menu {
         return bookList;
     }
 
+    private List<Author> authorReader() {
+
+        BufferedReader reader;
+        List<Author> authorList = new ArrayList<>();
+
+        try {
+            reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("authors.csv")));
+            String line = reader.readLine();
+
+            while (line != null) {
+                Author author;
+                String[] lineToken = line.split(";");
+                int number = Integer.parseInt(lineToken[0]);
+                String authorName = lineToken[1];
+                int numberOfBooks = Integer.parseInt(lineToken[2]);
+                author = new Author(number, authorName, numberOfBooks);
+                authorList.add(author);
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Błąd wczytywania danych");
+        }
+        return authorList;
+    }
+
     private void printMenu() {
         System.out.println("ksiegarnia.Menu:");
         System.out.println("1. EXIT");
         System.out.println("2. Kontakt");
+        System.out.println("3. Wyświetl listę książek:");
     }
 
-    private void menuChoice() {
+    private void menuChoice(List<Book> bookList) {
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
         while (choice != 1) {
@@ -66,9 +90,17 @@ public class Menu {
                     String emailKsiegarni = "ksiegarnia@o2.pl";
                     System.out.println(emailKsiegarni);
                     break;
+                case 3:
+                    showBooks(bookList);
             }
             printMenu();
             choice = scanner.nextInt();
+        }
+    }
+
+    private static void showBooks(List<Book> bookList) {
+        for (Book book : bookList) {
+            System.out.println(book);
         }
     }
 }
