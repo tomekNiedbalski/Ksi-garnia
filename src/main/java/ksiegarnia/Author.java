@@ -2,9 +2,9 @@ package ksiegarnia;
 
 public class Author {
 
-    int number;
-    String name;
-    int numberOfBooks;
+    private int number;
+    private String name;
+    private int numberOfBooks;
 
     public Author(int number, String name, int age) {
         this.number = number;
