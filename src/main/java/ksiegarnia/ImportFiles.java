@@ -20,18 +20,33 @@ public class ImportFiles {
             while (line != null) {
                 Book book;
                 String[] lineToken = line.split(";");
-                String title = lineToken[0];
-                int titleNumber = Integer.parseInt(lineToken[1]);
-                int publicationYear = Integer.parseInt(lineToken[2]);
-                book = new Book(title, titleNumber, publicationYear);
-                bookList.add(book);
-                line = reader.readLine();
+                if(lineToken.length==0){
+                    line = reader.readLine();
+                    line = pharseLineToBookConstructor(reader, bookList, line);
+                }
+                else {
+                    line = pharseLineToBookConstructor(reader, bookList, line);
+                }
             }
         } catch (IOException e) {
             System.out.println("Błąd wczytywania danych");
         }
         return bookList;
     }
+
+    private String pharseLineToBookConstructor(BufferedReader reader, List<Book> bookList, String line) throws IOException {
+        String[] lineToken;
+        Book book;
+        lineToken = line.split(";");
+        String title = lineToken[0];
+        int titleNumber = Integer.parseInt(lineToken[1]);
+        int publicationYear = Integer.parseInt(lineToken[2]);
+        book = new Book(title, titleNumber, publicationYear);
+        bookList.add(book);
+        line = reader.readLine();
+        return line;
+    }
+
     public List<Categories> importCategories() {
 
         BufferedReader reader;
@@ -55,6 +70,7 @@ public class ImportFiles {
         }
         return categoriesList;
     }
+
     public List<Author> importAuthors() {
 
         BufferedReader reader;

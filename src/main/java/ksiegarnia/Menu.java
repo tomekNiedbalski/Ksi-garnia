@@ -17,7 +17,7 @@ public class Menu {
     }
 
     private void printMenu() {
-        System.out.println("ksiegarnia.Menu:");
+        System.out.println("---------Menu----------");
         System.out.println("1. EXIT");
         System.out.println("2. Kontakt");
         System.out.println("3. Wyświetl listę książek");
@@ -30,20 +30,23 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         ImportFiles importFiles = new ImportFiles();
         int choice = scanner.nextInt();
+        authorData.setAuthorList(importFiles.importAuthors());
+        booksData.setBooksList(importFiles.importBooks());
+        categoriesData.setCategoriesList(importFiles.importCategories());
         while (choice != 1) {
-            authorData.setAuthorList(importFiles.importAuthors());
-            booksData.setBooksList(importFiles.importBooks());
-            categoriesData.setCategoriesList(importFiles.importCategories());
             switch (choice) {
                 case 2:
                     String emailKsiegarni = "ksiegarnia@o2.pl";
+                    System.out.println("Kontakt:");
                     System.out.println(emailKsiegarni);
                     break;
                 case 3:
+                    booksData.setBooksList(importFiles.importBooks());
                     System.out.println("Ksiązki dostępne w księgarni:");
                     booksData.showBooks();
                     break;
                 case 4:
+                    booksData.setBooksList(importFiles.importBooks());
                     System.out.println("Podaj rok:");
                     int year = scanner.nextInt();
                     System.out.println("Książki dostępne w księgarni przed " + year + " rokiem:");
@@ -56,7 +59,6 @@ public class Menu {
                 case 6:
                     System.out.println("Ksiązki wg kategorii:");
                     categoriesData.showCategories();
-
             }
             System.out.println();
             printMenu();
