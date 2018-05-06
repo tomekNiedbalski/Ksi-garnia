@@ -5,29 +5,25 @@ import java.util.List;
 
 public class CategoriesData {
 
-    private List<Categories> categoriesList = new ArrayList<>();
+    private List<Category> categoriesList = new ArrayList<>();
     private static CategoriesData categoriesData = null;
 
-    private CategoriesData(){}
+    private CategoriesData() {
+    }
 
-    public static CategoriesData getInstance(){
-        if(categoriesData == null){
+    public static CategoriesData getInstance() {
+        if (categoriesData == null) {
             categoriesData = new CategoriesData();
         }
         return categoriesData;
     }
 
-    public List<Categories> getCategoriesList() {
+    public List<Category> getCategoriesList() {
         return categoriesList;
     }
 
-    public void setCategoriesList(List<Categories> categoriesList) {
+    public void setCategoriesList(List<Category> categoriesList) {
         this.categoriesList = categoriesList;
     }
 
-    public void showCategories() {
-        for (Categories category:categoriesList) {
-            System.out.println(category);
-        }
-    }
 }

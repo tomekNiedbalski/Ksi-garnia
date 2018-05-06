@@ -8,65 +8,87 @@ import java.util.List;
 
 public class ImportFiles {
 
-    public List<Book> importBooks() {
+    private static final String IMPORT_FILE_ERROR_MESSAGE = "Błąd wczytywania danych";
+
+    public List<Book> importBooks(AuthorData authorData) {
 
         BufferedReader reader;
         List<Book> bookList = new ArrayList<>();
 
         try {
-            reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("books.csv")));
+            reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("books (2).csv")));
             String line = reader.readLine();
 
             while (line != null) {
-                Book book;
                 String[] lineToken = line.split(";");
-                if(lineToken.length==0){
+                if (lineToken.length == 0) {
                     line = reader.readLine();
-                    line = pharseLineToBookConstructor(reader, bookList, line);
-                }
-                else {
-                    line = pharseLineToBookConstructor(reader, bookList, line);
+                    line = pharseLineToBookConstructor(reader, bookList, line, authorData);
+                } else {
+                    line = pharseLineToBookConstructor(reader, bookList, line, authorData);
                 }
             }
         } catch (IOException e) {
-            System.out.println("Błąd wczytywania danych");
+            System.out.println(IMPORT_FILE_ERROR_MESSAGE);
         }
         return bookList;
     }
 
-    private String pharseLineToBookConstructor(BufferedReader reader, List<Book> bookList, String line) throws IOException {
+    private String pharseLineToBookConstructor(BufferedReader reader, List<Book> bookList, String line, AuthorData authorData) throws IOException {
+
+        CategoriesData categoriesData = CategoriesData.getInstance();
         String[] lineToken;
         Book book;
         lineToken = line.split(";");
         String title = lineToken[0];
-        int titleNumber = Integer.parseInt(lineToken[1]);
+        String isbn = lineToken[1];
         int publicationYear = Integer.parseInt(lineToken[2]);
-        book = new Book(title, titleNumber, publicationYear);
+        String bookBinding = lineToken[3];
+        String authorListNumbers = lineToken[4];
+        String[] authorsId = authorListNumbers.split(",");
+        String category = lineToken[5];
+
+        List<Author> authorList = new ArrayList<>();
+        for (int i = 0; i < authorsId.length; i++) {
+            for (Author author1 : authorData.getAuthorList()) {
+                if (authorsId[i].equals(Integer.toString(author1.getAuthorId()))) {
+                    authorList.add(author1);
+                }
+            }
+        }
+
+        Category categories = new Category("", 1);
+        for (Category categories1 : categoriesData.getCategoriesList()) {
+            if (Integer.parseInt(category) == (categories1.getCategoryId())) {
+                categories = categories1;
+            }
+        }
+
+        book = new Book(title, isbn, publicationYear, bookBinding, authorList, categories);
         bookList.add(book);
         line = reader.readLine();
         return line;
     }
 
-    public List<Categories> importCategories() {
+    public List<Category> importCategories() {
 
         BufferedReader reader;
-        List<Categories> categoriesList = new ArrayList<>();
+        List<Category> categoriesList = new ArrayList<>();
 
         try {
             reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("categories.csv")));
             String line = reader.readLine();
             while (line != null) {
-                Categories categories;
+                Category categories;
                 String[] lineToken = line.split(";");
-                int number = Integer.parseInt(lineToken[0]);
                 String category = lineToken[1];
                 int numberOfBooks = Integer.parseInt(lineToken[2]);
-                categories = new Categories(number, category, numberOfBooks);
+                categories = new Category(category, numberOfBooks);
                 categoriesList.add(categories);
                 line = reader.readLine();
             }
         } catch (IOException e) {
-            System.out.println("Błąd wczytywania danych");
+            System.out.println(IMPORT_FILE_ERROR_MESSAGE);
         }
         return categoriesList;
     }
@@ -83,17 +105,15 @@ public class ImportFiles {
             while (line != null) {
                 Author author;
                 String[] lineToken = line.split(";");
-                int number = Integer.parseInt(lineToken[0]);
                 String authorName = lineToken[1];
                 int numberOfBooks = Integer.parseInt(lineToken[2]);
-                author = new Author(number, authorName, numberOfBooks);
+                author = new Author(authorName, numberOfBooks);
                 authorList.add(author);
                 line = reader.readLine();
             }
         } catch (IOException e) {
-            System.out.println("Błąd wczytywania danych");
+            System.out.println(IMPORT_FILE_ERROR_MESSAGE);
         }
         return authorList;
     }
-
 }

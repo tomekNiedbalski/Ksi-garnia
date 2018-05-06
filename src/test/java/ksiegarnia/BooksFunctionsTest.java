@@ -1,13 +1,11 @@
 package ksiegarnia;
 
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertArrayEquals;
@@ -16,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 public class BooksFunctionsTest {
 
+    BooksFunctionOnlyForTest functionOnlyForTest = new BooksFunctionOnlyForTest();
     BooksFunctions booksFunctions = new BooksFunctions();
     List<Book> books = new ArrayList<>();
 
@@ -30,11 +29,11 @@ public class BooksFunctionsTest {
 
     @Test
     public void checkISBNnumber(){
-//        assertEquals(books.get(0),booksFunctions.findBookByISBN(books,"0132350882"));
+//        assertEquals(books.get(0),functionOnlyForTest.findBookByISBN(books,"0132350882"));
         String expectedIsbn = "0132350882";
-//        Optional<Book> bookByIsbn = booksFunctions.getBookByIsbn(books,expectedIsbn);
+//        Optional<Book> bookByIsbn = functionOnlyForTest.getBookByIsbn(books,expectedIsbn);
 //        if(bookByIsbn.isPresent()){
-            assertEquals(books.get(0),booksFunctions.findBookByISBN(books,expectedIsbn));
+            assertEquals(books.get(0), functionOnlyForTest.getBookByIsbn(books,expectedIsbn));
 //        }
 //        else{
 //            fail();
@@ -43,7 +42,7 @@ public class BooksFunctionsTest {
 
     @Test
     public void checkIfListIsSortedByYearIncreasingly(){
-        assertEquals(Arrays.asList(books.get(3),books.get(2),books.get(4),books.get(0),books.get(1)),booksFunctions.sortBooksByYearIncreasing(books));
+        assertEquals(Arrays.asList(books.get(3),books.get(2),books.get(4),books.get(0),books.get(1)), booksFunctions.sortBooksByYearIncreasing(books));
     }
 
     @Test
@@ -55,22 +54,22 @@ public class BooksFunctionsTest {
 
     @Test
     public void IsTwoLastBookReturned(){
-        assertEquals(Arrays.asList(books.get(3),books.get(4)),booksFunctions.getTwoLastBooks(books));
+        assertEquals(Arrays.asList(books.get(3),books.get(4)), functionOnlyForTest.getTwoLastBooks(books));
     }
 
     @Test
     public void IsItTheNewestBook(){
-        assertEquals(books.get(1),booksFunctions.getTheNewestBook(books));
+        assertEquals(books.get(1), functionOnlyForTest.getTheNewestBook(books));
     }
 
     @Test
     public void IsItTheOldestBook(){
-        assertEquals(books.get(3),booksFunctions.getTheOldestBook(books));
+        assertEquals(books.get(3), functionOnlyForTest.getTheOldestBook(books));
     }
 
     @Test
     public void IsSumOfPublicationYearCorrect(){
-        assertEquals(10035,booksFunctions.getSumOfPublicationYear(books));
+        assertEquals(10035, functionOnlyForTest.getSumOfPublicationYear(books));
     }
 
     @Test
@@ -82,34 +81,34 @@ public class BooksFunctionsTest {
 
     @Test
     public void AreAllBooksPublishedAfterYear(){
-        assertTrue(booksFunctions.checkIfAllBooksArePublishedAfterYear(books,2000));
+        assertTrue(functionOnlyForTest.checkIfAllBooksArePublishedAfterYear(books,2000));
     }
 
     @Test
     public void IsAveragePublicationYearCorrect(){
-        assertEquals((double)2007,booksFunctions.getAveragePublicationYear(books),1);
+        assertEquals((double)2007, functionOnlyForTest.getAveragePublicationYear(books),1);
     }
 
     @Test
     public void AreAllBooksPublishedBeforeYear(){
-        assertTrue(booksFunctions.checkIfAllBooksArePublishedBeforeYear(books,2100));
+        assertTrue(functionOnlyForTest.checkIfAllBooksArePublishedBeforeYear(books,2100));
     }
 
     @Test
     public void IsItCorrectListStartedWithLetterAndFilteredByYear(){
         Object[] booksArray = books.toArray();
-        Object[] sortedArray = booksFunctions.getBooksStartedWithCertainLetterAndFilteredByYear(books,"C",2000).toArray();
+        Object[] sortedArray = functionOnlyForTest.getBooksStartedWithCertainLetterAndFilteredByYear(books,"C",2000).toArray();
         assertArrayEquals(new Object[]{booksArray[0]},sortedArray);
     }
 
     @Test
     public void IsAdding100YearsIsCorrect(){
-        assertEquals(2108,booksFunctions.addYearsToPublicationYear(books).get(0).getPublicationYear());
+        assertEquals(2108, functionOnlyForTest.addYearsToPublicationYear(books).get(0).getPublicationYear());
     }
 
     @Test
     public void AreTitlesDividedBy2(){
-        assertEquals(books.get(0).getTitle(),booksFunctions.getTitlesWhereYearIsDividedBy2(books).get(0));
+        assertEquals(books.get(0).getTitle(), functionOnlyForTest.getTitlesWhereYearIsDividedBy2(books).get(0));
     }
 
 }

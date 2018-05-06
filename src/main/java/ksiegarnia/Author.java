@@ -2,18 +2,36 @@ package ksiegarnia;
 
 public class Author {
 
-    private int number;
+    private int authorId;
     private String name;
-    private int numberOfBooks;
+    private int age;
+    private static int id = 0;
 
-    public Author(int number, String name, int age) {
-        this.number = number;
+    public Author(String name, int age) {
+        id++;
+        this.authorId = id;
         this.name = name;
-        this.numberOfBooks = age;
+        this.age = age;
+    }
+
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
     public String toString() {
-        return number +". " + name + ", " + numberOfBooks;
+        return authorId + ". " + name + " age:" + age;
     }
 }
