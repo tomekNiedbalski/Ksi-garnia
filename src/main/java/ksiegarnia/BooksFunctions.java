@@ -3,6 +3,7 @@ package ksiegarnia;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class BooksFunctions {
@@ -23,7 +24,7 @@ public class BooksFunctions {
         return books.stream().filter(book -> book.getPublicationYear() < year).collect(Collectors.toList());
     }
 
-    public List<Book> filterBooksByWzorceProjektowe(List<Book> books) {
+    public List<Book> sortBooksByWzorceProjektowe(List<Book> books) {
         return books.stream()
                 .filter(book -> book.getCategory().getName().equalsIgnoreCase("Wzorce projektowe"))
                 .collect(Collectors.toList());
@@ -50,5 +51,11 @@ public class BooksFunctions {
                 .filter(book -> book.getCategory().getCategoryId() == choice)
                 .collect(Collectors.toList());
 
+    }
+
+    public boolean checkForCorrectId(List<Book> books, int choice){
+        if(choice<1||(choice-1)>=books.size())
+            throw new NoSuchIdException();
+        return true;
     }
 }

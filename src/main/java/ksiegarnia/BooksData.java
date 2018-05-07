@@ -25,10 +25,4 @@ public class BooksData {
         }
         return booksData;
     }
-
-    public void showBooks(List<Book> books) {
-        for (Book book : books) {
-            System.out.println(book);
-        }
-    }
 }

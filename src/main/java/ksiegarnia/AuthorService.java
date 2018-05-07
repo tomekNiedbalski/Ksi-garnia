@@ -20,6 +20,12 @@ public class AuthorService {
         }
     }
 
+    public boolean checkForCorrectId(List<Author> authors, int choice){
+        if(choice<1||(choice-1)>=authors.size())
+            throw new NoSuchIdException();
+        return true;
+    }
+
     public void printAuthorsWithNumberOfBooks(List<Author> authorList) {
         Integer number;
         Map<Author, Integer> tempList = new HashMap<>();
@@ -36,7 +42,7 @@ public class AuthorService {
         System.out.println(tempList);
     }
 
-    public void próba() {
+    public void printAuthorsWithNumberOfBooks2() {
         int number = 0;
         Map<Author, Integer> tempMap = new HashMap<>();
         AuthorData authorData = AuthorData.getInstance();

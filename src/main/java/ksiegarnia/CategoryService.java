@@ -21,4 +21,10 @@ public class CategoryService {
             System.out.println(category);
         }
     }
+
+    public boolean checkForCorrectId(List<Category> categories, int choice){
+        if(choice<1||(choice-1)>=categories.size())
+            throw new NoSuchIdException();
+        return true;
+    }
 }

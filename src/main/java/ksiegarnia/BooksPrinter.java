@@ -50,9 +50,4 @@ public class BooksPrinter {
                 System.out.println("Nie posiadamy ksiązek podanego autora");
         } else System.out.println("Podano złe ID");
     }
-
-    public void printAllBooksForCertainCategory(List<Book> books, int choice) {
-        books.stream().filter(book -> book.getCategory().getCategoryId() == choice).forEach(System.out::println);
-
-    }
 }

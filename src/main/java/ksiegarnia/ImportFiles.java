@@ -10,7 +10,7 @@ public class ImportFiles {
 
     private static final String IMPORT_FILE_ERROR_MESSAGE = "Błąd wczytywania danych";
 
-    public List<Book> importBooks(AuthorData authorData) {
+    public List<Book> importBooks() {
 
         BufferedReader reader;
         List<Book> bookList = new ArrayList<>();
@@ -20,13 +20,8 @@ public class ImportFiles {
             String line = reader.readLine();
 
             while (line != null) {
-                String[] lineToken = line.split(";");
-                if (lineToken.length == 0) {
-                    line = reader.readLine();
-                    line = pharseLineToBookConstructor(reader, bookList, line, authorData);
-                } else {
-                    line = pharseLineToBookConstructor(reader, bookList, line, authorData);
-                }
+                pharseLineToBookConstructor(bookList, line);
+                line = reader.readLine();
             }
         } catch (IOException e) {
             System.out.println(IMPORT_FILE_ERROR_MESSAGE);
@@ -34,12 +29,12 @@ public class ImportFiles {
         return bookList;
     }
 
-    private String pharseLineToBookConstructor(BufferedReader reader, List<Book> bookList, String line, AuthorData authorData) throws IOException {
+    private void pharseLineToBookConstructor(List<Book> bookList, String line) {
 
         CategoriesData categoriesData = CategoriesData.getInstance();
-        String[] lineToken;
+        AuthorData authorData = AuthorData.getInstance();
         Book book;
-        lineToken = line.split(";");
+        String[] lineToken = line.split(";");
         String title = lineToken[0];
         String isbn = lineToken[1];
         int publicationYear = Integer.parseInt(lineToken[2]);
@@ -66,8 +61,6 @@ public class ImportFiles {
 
         book = new Book(title, isbn, publicationYear, bookBinding, authorList, categories);
         bookList.add(book);
-        line = reader.readLine();
-        return line;
     }
 
     public List<Category> importCategories() {
